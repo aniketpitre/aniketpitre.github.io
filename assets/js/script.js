@@ -68,14 +68,31 @@ filterBtn.forEach((btn) => {
 });
 
 // Contact form variables
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
-formInputs.forEach((input) => {
-  input.addEventListener("input", () => {
-    formBtn.disabled = !form.checkValidity();
+	
+  const form = document.querySelector('#contact-form');
+  const submitButton = form.querySelector('[type="submit"]');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Submit the form using AJAX
+    const formData = new FormData(form);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action);
+    xhr.send(formData);
+
+    // Display a confirmation message
+    const confirmationMessage = document.createElement('p');
+    confirmationMessage.classList.add('form-btn');
+    confirmationMessage.classList.add('form-btn-success');
+    confirmationMessage.innerHTML = '<ion-icon name="checkmark"></ion-icon><span>Thank you for your message. We will be in touch soon.</span>';
+    form.parentNode.insertBefore(confirmationMessage, form.nextSibling);
+	
+
+    // Remove the disabled attribute from the submit button
+    submitButton.removeAttribute('disabled');
   });
-});
+	
 
 // Page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
